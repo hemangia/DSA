@@ -1,29 +1,33 @@
 package prog_33_searchInRotatedArray;
 
 public class Solution {
-    public int search(int[] nums, int target) {
-        int low = 0 ;
-        int high = nums.length - 1;
-        while(low<=high){
-            int mid = low + (high - low) / 2 ;
-            if(nums[mid] == target){
+    // In this program we will be having sorted array in both the sides or we will be having sorted array in atleast one side
+//We will check if left side is sorted and if it is sorted we will check if element lies between sorted side
+// If element is not lying in left sorted side, we will move to right side.
+//If our right side is sorted then we will check if element lies between right side, if not we will skip whole right side. and continue search in left side.
+    public int search(int[] arr, int target) {
+        int start = 0;
+        int end = arr.length - 1 ;
+        while(start <= end){
+            int mid = start + (end - start) / 2 ;
+            if (arr[mid] == target){
                 return mid ;
             }
-            //Check if left side is sorted or not
-            if(nums[low] <= nums[mid]){
-                if(nums[low]<=target && nums[mid]>= target){
-                    high = mid - 1;
+            if(arr[start] <= arr[mid]){ // This means if left side is sorted
+                if(arr[start]<= target && target <= arr[mid]){ // if item lies between left side
+                    end = mid - 1; // then skip right side
                 }
-                else{
-                    low = mid +1 ; // skip sorted part, Go to unsorted side
+                else{// if item is not lying in left side
+                    start = mid + 1 ; // then skip left side and jump to right side
                 }
+
             }
-            else{ // that mean you right side is sorted
-                if(nums[mid]<= target && nums[high] >= target){
-                    low = mid + 1 ;
+            else{ // this means right side is sorted
+                if(arr[mid] <= target && target<= arr[end]){// if item lies in right side
+                    start = mid + 1 ; // then skip left side
                 }
-                else{
-                    high = mid -1 ;  // skip sorted part,  Go to unsorted side
+                else{ // if item is not lying in right side
+                    end = mid - 1 ; // then skip right side and jump to left side.
                 }
             }
         }

@@ -1,59 +1,54 @@
 package prog_705_designHashset;
 class MyHashSet {
-    private int firstBucketSize ;
-    private int secondBucketSize ;
-    Integer[][] storage;
-    public MyHashSet() {
-        this.firstBucketSize = 1000;
-        this.secondBucketSize = 1000;
-        this.storage = new Integer[firstBucketSize][];
-    }
+    //In this solution we are using double hashing technique where base structure is array of integer and for every index we are
+    //maintaining second array.
+    Integer[][] storage = new Integer[1000][] ;
 
-    public int hashFun1(int key){
-        return key % firstBucketSize ;
+    public MyHashSet() {
+
     }
-    public int hashfun2(int key){
-        return key / secondBucketSize;
+    int hash1(int key){
+        return key % 1000 ;
+    }
+    int hash2(int key){
+        return key / 1000 ;
     }
     public void add(int key) {
-        int hashVal1 = hashFun1(key);
-        if(storage[hashVal1] == null)  {
-            if(hashVal1 == 0){
-                storage[hashVal1] = new Integer[secondBucketSize + 1];
-                int hashVal2 = hashfun2(key);
-                storage[hashVal1][hashVal2] = key ;
-            }
+        int val1 = hash1(key);
+        if(storage[val1] == null){
+            int val2 =  hash2(key);
+            if(val1 == 0) { // This condition is for edge case if there are 1000000 numbers and for 1000000th item val1 = 1000000 % 1000 which is Zero 0
+                storage[val1] = new Integer[1000+1] ; // but in zero index 1000000 / 1000 there are only items from 0 to 999
+            }// in that case we will be storing additional 1 item in the 0th index only.
             else{
-                storage[hashVal1] = new Integer[secondBucketSize];
-                int hashVal2 = hashfun2(key);
-                storage[hashVal1][hashVal2] = key ;
+                storage[val1] = new Integer[1000] ;
             }
+
+            storage[val1][val2] = key ;
         }
         else{
-            int hashVal2 = hashfun2(key);
-            storage[hashVal1][hashVal2] = key ;
+            int val2 =  hash2(key);
+            storage[val1][val2] = key ;
         }
     }
 
     public void remove(int key) {
-        int hashVal1 = hashFun1(key);
-        if(storage[hashVal1] == null){
+        int val1 = hash1(key);
+        if(storage[val1] == null){
             return ;
         }
-        else{
-            int hashVal2 = hashfun2(key);
-            storage[hashVal1][hashVal2] = null ;
-        }
+        int val2 =  hash2(key);
+        storage[val1][val2] = null ;
+
     }
 
     public boolean contains(int key) {
-        int hashVal1 = hashFun1(key);
-        if(storage[hashVal1] == null){
-            return false ;
+        int val1 = hash1(key);
+        if(storage[val1] == null){
+            return false;
         }
-
-        int hashVal2 = hashfun2(key);
-        if(storage[hashVal1][hashVal2] != null){
+        int val2 =  hash2(key);
+        if(storage[val1][val2] != null){
             return true ;
         }
         return false ;

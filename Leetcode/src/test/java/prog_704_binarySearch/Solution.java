@@ -21,3 +21,28 @@ public class Solution {
         return -1;
     }
 }
+
+//Solution 2
+/*
+class Solution {
+    public int search(int[] nums, int target) {
+        return binarySearch(nums, target, 0 , nums.length-1);
+    }
+    int binarySearch(int arr[], int target, int start, int end){
+
+        while(start<=end){
+            int mid = start + end - start / 2 ;
+            if(target == arr[mid]){
+                return mid ;
+            }
+            if(target> arr[mid]){
+                start = mid +1 ;
+            }
+            if(target< arr[mid]){
+                end = mid - 1 ;
+            }
+        }
+        return -1 ;
+    }
+}
+*/

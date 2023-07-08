@@ -3,37 +3,43 @@ package prog_232_implementQueueUsingStack;
 import java.util.Stack;
 
 public class MyQueue {
-    Stack<Integer> in ;
-    Stack<Integer> out ;
+    Stack<Integer> in = new Stack();
+    Stack<Integer> out = new Stack();
+    //In this program we are maintaining two stacks one for in function and other for out function
+//In is for pushing and out for poping. whenever out is empty and we want to perform pop then we push all items from in
+// and put it into out in reverse manner. so whever pop happens, it will be top element of out stack.
+// here the complexity will be O(1)
     public MyQueue() {
-        in = new Stack<>();
-        out = new Stack<>();
+
     }
 
     public void push(int x) {
-        in.push(x) ; //0(1)
+        in.push(x);
     }
 
-    public int pop() {  // Amortized O(1)
+    public int pop() {
         if(out.isEmpty()){
             while(!in.isEmpty()){
                 out.push(in.pop()) ;
             }
         }
-        return out.pop() ;
+        return out.pop();
     }
 
-    public int peek() { // Amortized O(1)
+    public int peek() {
         if(out.isEmpty()){
             while(!in.isEmpty()){
-                out.push(in.pop());
+                out.push(in.pop()) ;
             }
         }
         return out.peek();
     }
 
     public boolean empty() {
-        return in.isEmpty() && out.isEmpty() ;
+        if(in.isEmpty() & out.isEmpty()){
+            return true ;
+        }
+        return false ;
     }
 }
 
@@ -45,3 +51,4 @@ public class MyQueue {
  * int param_3 = obj.peek();
  * boolean param_4 = obj.empty();
  */
+

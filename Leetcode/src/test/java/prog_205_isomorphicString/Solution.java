@@ -2,32 +2,42 @@ package prog_205_isomorphicString;
 
 import java.util.HashMap;
 
-public  class Solution {
+public class Solution {
+    /*
+    The isomorphic strings are the two strings where every character from one string is mapped to another & vice
+    versa. For eg. "egg" and "add" e ->a a -> e  && g -> d d -> g and g -> d d -> g, so two strings are isomorphic
+    We will be maintaining 2 maps one for source to target and another for target to source
+    Map    Key. Value
+    sMap = e.   a
+    sMap = g.   d
+    Time Complexity : O(N)
+    Space Complexity : O(1)  suppose we have a string with 1000 character but we will be storing only 26 chars
+    In that case space will be O(1)
+    */
     public boolean isIsomorphic(String s, String t) {
-        if(s.length()!=t.length()) return false ;
-//In this solution we are maintaining 2 hashmap for source to target mapping and target to source mapping.
-//We will be checking if each character is mapped to same character from both the strings
-        HashMap<Character, Character> source = new HashMap<>();
-        HashMap<Character, Character> target = new HashMap<>();
-        for(int i=0; i<=s.length()-1; i++){
-            char s1 = s.charAt(i);
-            char t1 = t.charAt(i);
-
-            if(!(source.containsKey(s1)) && !(target.containsKey(t1))){
-                source.put(s1, t1);
-                target.put(t1,s1);
-
-            }
-
-            if(source.get(s1) !=null && source.get(s1) != t1) {
-                return false ;
-            }
-            if (target.get(t1)!=null && target.get(t1)!= s1){
-                return false ;
-            }
-
-
+        if(s.length()!=t.length()){ // Here if length of 2 strings are not matching that means its not isomorphic
+            return false ; //
         }
-        return true ;
+        HashMap<Character, Character> sourceMap = new HashMap<>(); // This map for source
+        HashMap<Character, Character> targetMap = new HashMap<>(); // This map for target
+
+        for(int i=0 ; i<=s.length()-1; i++){ // we will iterate through every character
+            char sChar = s.charAt(i);
+            char tChar = t.charAt(i);
+            if(!(sourceMap.containsKey(sChar)) && !(targetMap.containsKey(tChar))){ // If sourceChar and targetChar
+                //doesnt exist, then we will add those as key value pair in both the maps
+                sourceMap.put(sChar, tChar);
+                targetMap.put(tChar, sChar);
+            }
+            //if key of sChar exist in source and its not equal to tchar then its not isomorphic
+            if(sourceMap.get(sChar)!=null && sourceMap.get(sChar)!=tChar){
+                return false ;
+            }
+            //if key of tChar exist in target and its not equal to sChar then its not isomorphic
+            if(targetMap.get(tChar)!=null && targetMap.get(tChar)!=sChar){
+                return false ;
+            }
+        }
+        return true;
     }
 }
